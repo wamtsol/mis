@@ -4,7 +4,7 @@ include("general_journal_do.php");
 $rs = doquery( $sql, $dblink );
 if(numrows($rs)>0){
     header('Content-Type: text/csv; charset=utf-8');
-    header("Content-Disposition: attachment; filename=employee_salary.csv");
+    header("Content-Disposition: attachment; filename=general_journal.csv");
     $fh = fopen( 'php://output', 'w' );
     if( !empty( $from ) ){
         fputcsv($fh,array('From:', $from, '', 'To:', $to));

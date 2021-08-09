@@ -10,6 +10,7 @@ if(!defined("APP_START")) die("No Direct Access");
     	<div class="btn-group" role="group" aria-label="..."> 
         	<a id="topstats" class="btn btn-light" href="#"><i class="fa fa-search"></i></a> 
             <a class="btn print-btn" href="report_manage.php?tab=general_journal_print"><i class="fa fa-print" aria-hidden="true"></i></a>
+            <a class="btn print-btn" href="report_manage.php?tab=csv_general">CSV</a>
         </div>
   	</div>
 </div>
