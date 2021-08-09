@@ -15,7 +15,9 @@ if(numrows($rs)>0){
     $sn = 1;
     fputcsv($fh,array($order == 'desc'?'Closing':'Opening','Balance',curr_format( $balance )));
     while($r=dofetch($rs)){
-        $total += $r["amount"];
+
+        $total_debit += $r["debit"];
+            $total_credit += $r["credit"];
         if($order == 'asc'){
             $balance += ($r["debit"]-$r["credit"])*($order == 'desc'?'-1':1);
         }
