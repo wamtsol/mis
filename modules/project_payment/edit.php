@@ -132,10 +132,80 @@ if(!defined("APP_START")) die("No Direct Access");
     <div class="form-group">
     	<div class="row">
             <div class="col-sm-2 control-label">
+                <label class="form-label" for="total_applications">Total Applications</label>
+            </div>
+            <div class="col-sm-10">
+                <input type="text" title="Enter Total applications" value="<?php echo $total_applications; ?>" name="total_applications" id="total_applications" class="form-control" >
+            </div>
+        </div>
+  	</div>
+    <div class="form-group">
+    	<div class="row">
+            <div class="col-sm-2 control-label">
+                <label class="form-label" for="noc_delivery">Noc Delivery</label>
+            </div>
+            <div class="col-sm-10">
+                <input type="text" title="Enter Noc delivery" value="<?php echo $noc_delivery; ?>" name="noc_delivery" id="noc_delivery" class="form-control" >
+            </div>
+        </div>
+  	</div>
+    <div class="form-group">
+    	<div class="row">
+            <div class="col-sm-2 control-label">
+                <label class="form-label" for="disabled">Disabled</label>
+            </div>
+            <div class="col-sm-10">
+                <input type="text" title="Enter disabled" value="<?php echo $disabled; ?>" name="disabled" id="disabled" class="form-control" >
+            </div>
+        </div>
+  	</div>
+    <div class="form-group">
+    	<div class="row">
+            <div class="col-sm-2 control-label">
+                <label class="form-label" for="discount">Discount</label>
+            </div>
+            <div class="col-sm-10">
+                <input type="text" title="Enter discount" value="<?php echo $discount; ?>" name="discount" id="discount" class="form-control" >
+            </div>
+        </div>
+  	</div>
+    <div class="form-group">
+    	<div class="row">
+            <div class="col-sm-2 control-label">
+                <label class="form-label" for="credit">Credit</label>
+            </div>
+            <div class="col-sm-10">
+                <input type="text" title="Enter Credit" value="<?php echo $credit; ?>" name="credit" id="credit" class="form-control">
+            </div>
+        </div>
+  	</div>
+      <div class="form-group">
+    	<div class="row">
+            <div class="col-sm-2 control-label">
                 <label class="form-label" for="correction">Correction</label>
             </div>
             <div class="col-sm-10">
                 <input type="text" title="Enter Correction" value="<?php echo $correction; ?>" name="correction" id="correction" class="form-control">
+            </div>
+        </div>
+  	</div>
+    <div class="form-group">
+    	<div class="row">
+            <div class="col-sm-2 control-label">
+                <label class="form-label" for="correction_returned">Credit Returned</label>
+            </div>
+            <div class="col-sm-10">
+                <input type="text" title="Enter Credit returned" value="<?php echo $correction_returned; ?>" name="correction_returned" id="correction_returned" class="form-control">
+            </div>
+        </div>
+  	</div>
+      <div class="form-group">
+    	<div class="row">
+            <div class="col-sm-2 control-label">
+                <label class="form-label" for="home_delivery">Home Delivery</label>
+            </div>
+            <div class="col-sm-10">
+                <input type="text" title="Enter Home Delivery" value="<?php echo $home_delivery; ?>" name="home_delivery" id="home_delivery" class="form-control">
             </div>
         </div>
   	</div>

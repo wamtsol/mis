@@ -104,36 +104,69 @@ if(!defined("APP_START")) die("No Direct Access");
                             </a>
                         </td>
                         <td class="text-center">
+
                             	<a href="project_manage.php?tab=edit&id=<?php echo $r['id'];?>"><img title="Edit Record" alt="Edit" src="images/edit.png"></a>&nbsp;&nbsp;
+
                             	<a onclick="return confirm('Are you sure you want to delete')" href="project_manage.php?id=<?php echo $r['id'];?>&amp;tab=delete"><img title="Delete Record" alt="Delete" src="images/delete.png"></a>
+
                         </td>
+
                     </tr>  
+
                     <?php 
+
                     $sn++;
+
                 }
+
                 ?>
+
                 <tr>
+
                     <td colspan="5" class="actions">
+
                         <select name="bulk_action" class="" id="bulk_action" title="Choose Action">
+
                             <option value="null">Bulk Action</option>
+
                             <option value="delete">Delete</option>
+
                             <option value="statuson">Set Status On</option>
+
                             <option value="statusof">Set Status Off</option>
+
                         </select>
+
                         <input type="button" name="apply" value="Apply" id="apply_bulk_action" class="btn btn-light" title="Apply Action"  />
+
                     </td>
+
                     <td colspan="4" class="paging" title="Paging" align="right"><?php echo pages_list($rows, "project", $sql, $pageNum)?></td>
+
                 </tr>
+
                 <?php	
+
             }
+
             else{	
+
                 ?>
+
                 <tr>
+
                     <td colspan="9"  class="no-record">No Result Found</td>
+
                 </tr>
+
                 <?php
+
             }
+
             ?>
+
         </tbody>
+
      </table>
+
 </div>

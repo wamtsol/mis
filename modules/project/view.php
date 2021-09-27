@@ -237,7 +237,7 @@ if(!defined("APP_START")) die("No Direct Access");
                                 <th width="15%" class="text-right">Amount</th>
                             </tr>
                             <?php
-                            $rs = doquery( "select a.*, ifnull(b.title, '--') as account from project_payment a left join account b on a.account_id = b.id where a.project_id = '".$id."' and a.status = 1 order by datetime_added desc", $dblink );
+                            $rs = doquery( "select a.*, ifnull(b.title, '--') as account from project_payment a left join account b on a.account_id = b.id where a.project_id = '".$id."' and a.status = 1 order by datetime_added desc limit 0,10", $dblink );
 							if( numrows( $rs ) > 0 ) {
 								$sn = 1;
 								while( $r = dofetch( $rs ) ) {
@@ -262,7 +262,7 @@ if(!defined("APP_START")) die("No Direct Access");
  							?>
                         </table>
                         <div class="fancybox-btn">
-				            <a href="project_payment_manage.php?project_id=<?php echo $id?>&tab=addedit" class="btn f-iframe btn-danger btn-l">Add New Payment</a>
+				            <a href="project_payment_manage.php?project_id=<?php echo $id?>&tab=add" class="btn f-iframe btn-danger btn-l">Add New Payment</a>
                        	</div>
                     </div>
                 </div>

@@ -4,7 +4,7 @@ if(isset($_SESSION["project_payment_manage"]["add"])){
 	extract($_SESSION["project_payment_manage"]["add"]);	
 }
 else{
-	$project_id="";
+
 	$datetime_added=date("d/m/Y H:i A");
 	$amount="";
 	$account_id="";
@@ -12,29 +12,46 @@ else{
     $exempt_tax="";
     $sales_tax="";
     $gst_withheld="";
+    $total_applications="";
+    $noc_delivery="";
+    $disabled="";
+    $discount="";
+    $credit="";
     $invoice_amount="";
+    $correction="";
+    $correction_returned="";
+    $home_delivery="";
 }
 ?>
 <div class="page-header">
 	<h1 class="title">Add New Project Payment</h1>
   	<ol class="breadcrumb">
-    	<li class="active">Manage Project Payment</li>
+      <li class="active">
+        <?php
+        if( !isset( $_SESSION["project_payment"]["list"]["project_id"] ) || $_SESSION["project_payment"]["list"]["project_id"] == "" ) {
+            echo "All Expenses";
+        }
+        else if( $_SESSION["project_payment"]["list"]["project_id"] == "0" ) {
+            echo "Administrative Expenses";
+        }
+        else {
+            echo "Project: ".get_field( $_SESSION["project_payment"]["list"]["project_id"], "project" );
+        }
+        ?>
+    </li>
   	</ol>
   	<div class="right">
     	<div class="btn-group" role="group" aria-label="..."> <a href="project_payment_manage.php" class="btn btn-light editproject">Back to List</a> </div>
   	</div>
 </div>
 <form action="project_payment_manage.php?tab=add" method="post" enctype="multipart/form-data" name="frmAdd"  onSubmit="return checkFields();" class="form-horizontal form-horizontal-left">
-	<?php
-    	$i=0;
-  	?>
   	<div class="form-group">
     	<div class="row">
             <div class="col-sm-2 control-label">
                 <label class="form-label" for="project_id">Project <span class="manadatory">*</span></label>
             </div>
             <div class="col-sm-10">
-                <select name="project_id" id="project_id" class="margin-btm-5 select_supplier">
+                <select name="project_id" id="project_id" class="margin-btm-5">
                 	<option value="">Select Project</option>
                     <?php
                     $rs = doquery( "select * from project where status=1 order by title", $dblink );
@@ -145,6 +162,86 @@ else{
             </div>
         </div>
     </div>
+    <div class="form-group">
+    	<div class="row">
+            <div class="col-sm-2 control-label">
+                <label class="form-label" for="total_applications">Total Applications</label>
+            </div>
+            <div class="col-sm-10">
+                <input type="text" title="Enter Total applications" value="<?php echo $total_applications; ?>" name="total_applications" id="total_applications" class="form-control" >
+            </div>
+        </div>
+  	</div>
+    <div class="form-group">
+    	<div class="row">
+            <div class="col-sm-2 control-label">
+                <label class="form-label" for="noc_delivery">Noc Delivery</label>
+            </div>
+            <div class="col-sm-10">
+                <input type="text" title="Enter Noc delivery" value="<?php echo $noc_delivery; ?>" name="noc_delivery" id="noc_delivery" class="form-control" >
+            </div>
+        </div>
+  	</div>
+    <div class="form-group">
+    	<div class="row">
+            <div class="col-sm-2 control-label">
+                <label class="form-label" for="disabled">Disabled</label>
+            </div>
+            <div class="col-sm-10">
+                <input type="text" title="Enter disabled" value="<?php echo $disabled; ?>" name="disabled" id="disabled" class="form-control" >
+            </div>
+        </div>
+  	</div>
+    <div class="form-group">
+    	<div class="row">
+            <div class="col-sm-2 control-label">
+                <label class="form-label" for="discount">Discount</label>
+            </div>
+            <div class="col-sm-10">
+                <input type="text" title="Enter discount" value="<?php echo $discount; ?>" name="discount" id="discount" class="form-control" >
+            </div>
+        </div>
+  	</div>
+    <div class="form-group">
+    	<div class="row">
+            <div class="col-sm-2 control-label">
+                <label class="form-label" for="credit">Credit</label>
+            </div>
+            <div class="col-sm-10">
+                <input type="text" title="Enter Credit" value="<?php echo $credit; ?>" name="credit" id="credit" class="form-control">
+            </div>
+        </div>
+  	</div>
+    <div class="form-group">
+    	<div class="row">
+            <div class="col-sm-2 control-label">
+                <label class="form-label" for="correction">Correction</label>
+            </div>
+            <div class="col-sm-10">
+                <input type="text" title="Enter Correction" value="<?php echo $correction; ?>" name="correction" id="correction" class="form-control">
+            </div>
+        </div>
+  	</div>
+    <div class="form-group">
+    	<div class="row">
+            <div class="col-sm-2 control-label">
+                <label class="form-label" for="correction_returned">Credit Returned</label>
+            </div>
+            <div class="col-sm-10">
+                <input type="text" title="Enter Credit returned" value="<?php echo $correction_returned; ?>" name="correction_returned" id="correction_returned" class="form-control">
+            </div>
+        </div>
+  	</div>
+    <div class="form-group">
+    	<div class="row">
+            <div class="col-sm-2 control-label">
+                <label class="form-label" for="home_delivery">Home Delivery</label>
+            </div>
+            <div class="col-sm-10">
+                <input type="text" title="Enter Home Delivery" value="<?php echo $home_delivery; ?>" name="home_delivery" id="home_delivery" class="form-control">
+            </div>
+        </div>
+  	</div>
   	<div class="form-group">
     	<div class="row">
             <div class="col-sm-2 control-label">

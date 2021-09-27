@@ -1,6 +1,6 @@
 <?php
-if(!defined("APP_START")) die("No Direct Access");
 
+if(!defined("APP_START")) die("No Direct Access");
 if(isset($_GET["action"]) && $_GET["action"]!=""){
 	$bulk_action=$_GET["action"];
 	$id=explode(",",urldecode($_GET["Ids"]));	
