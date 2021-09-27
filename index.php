@@ -7,6 +7,10 @@ $extra='';
 $order_by = "date";
 $order = "asc";
 $orderby = $order_by." ".$order;
+$adminId = '';
+if($_SESSION["logged_in_admin"]["admin_type_id"]!=1){
+	$adminId = "and b.admin_id = '".$_SESSION["logged_in_admin"]["id"]."'";
+}
 ?>
 <?php include("include/header.php");?>		
    <div class="page-header">
@@ -20,7 +24,7 @@ $orderby = $order_by." ".$order;
         <div class="col-md-12">
             <h2 class="title">Active Projects</h2>
 			<?php
-            $projects=doquery("Select * from project where status = 1 order by start_date desc",$dblink);
+            $projects=doquery("Select a.* from project a left join admin_2_project b on a.id = b.project_id where status = 1 ".$adminId." order by start_date desc",$dblink);
             if( numrows( $projects ) > 0 ){
                 ?>
                 <ul class="menu-boxes clearfix">
@@ -39,6 +43,7 @@ $orderby = $order_by." ".$order;
                 </ul>
                 <?php
             }
+            if($_SESSION["logged_in_admin"]["admin_type_id"]==1){
             ?>
             <div class="row">
                 <div class="col-12">
@@ -111,6 +116,7 @@ $orderby = $order_by." ".$order;
             <hr>
             <div id="chartContainer2" style="height: 300px; width: 100%;"></div>
             <div id="chartContainer3" style="height: 300px; width: 100%;"></div>
+            <?php }?>
         </div>
     </div>
 </div>

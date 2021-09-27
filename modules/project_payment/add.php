@@ -54,7 +54,7 @@ else{
                 <select name="project_id" id="project_id" class="margin-btm-5">
                 	<option value="">Select Project</option>
                     <?php
-                    $rs = doquery( "select * from project where status=1 order by title", $dblink );
+                    $rs=doquery("select a.* from project a left join admin_2_project b on a.id = b.project_id where status=1 ".$adminId." order by title", $dblink);
 					if( numrows( $rs ) > 0 ) {
 						while( $r = dofetch( $rs ) ) {
 							?>

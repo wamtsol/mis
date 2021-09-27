@@ -33,7 +33,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-list dropdown-menu-right">
                     	<li class="dropdown-header" role="presentation">Profile</li>
-                        <li><a href="admin_manage.php?tab=edit&id=<?php echo $_SESSION["logged_in_admin"]["id"]?>"><i class="fa falist fa-file-o"></i>Edit Profile</a></li>
+                        <li><a href="profile.php?tab=edit"><i class="fa falist fa-file-o"></i>Edit Profile</a></li>
                         <li><a href="config_manage.php"><i class="fa falist fa-wrench"></i>Settings</a></li>
                         <li class="divider"></li>
                         <li><a href="logout.php"><i class="fa falist fa-power-off"></i> Logout</a></li>

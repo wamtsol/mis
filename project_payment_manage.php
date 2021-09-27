@@ -67,6 +67,10 @@ if(($exempt_tax!= "")){
 	$is_search=true;
 }
 $sql="select a.*, b.title from project_payment a inner join project b on a.project_id = b.id where 1 ".$extra." order by datetime_added desc";
+$adminId = '';
+if($_SESSION["logged_in_admin"]["admin_type_id"]!=1){
+	$adminId = "and b.admin_id = '".$_SESSION["logged_in_admin"]["id"]."'";
+}
 switch($tab){
 	case 'add':
 		include("modules/project_payment/add_do.php");

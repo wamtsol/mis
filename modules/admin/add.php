@@ -10,6 +10,7 @@ else{
 	$email="";
 	$password="";
 	$monthly_salary="";
+    $project_ids=array();
 }
 ?>
 <div class="page-header">
@@ -40,6 +41,28 @@ else{
                         ?>
                         <option value="<?php echo $rec["id"]?>"<?php echo($admin_type_id==$rec["id"])?"selected":"";?>><?php echo unslash($rec["title"]); ?></option>
                      <?php			
+                        }			
+                    }
+                    ?>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-2 control-label no-padding-right">
+                <label class="form-label" for="project_id">Project </label>
+            </div>
+            <div class="col-sm-10">
+                <select name="project_ids[]" title="Choose Option" multiple="multiple" class="select_multiple">
+                    <option value="0">Select Project</option>
+                    <?php
+                    $res=doquery("Select * from project order by title",$dblink);
+                    if(numrows($res)>0){
+                        while($rec=dofetch($res)){
+                            ?>
+                            <option value="<?php echo $rec["id"]?>"<?php echo in_array($rec["id"], $project_ids)?"selected":"";?>><?php echo unslash($rec["title"]); ?></option>
+                            <?php			
                         }			
                     }
                     ?>

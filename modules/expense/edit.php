@@ -63,14 +63,14 @@ if(!defined("APP_START")) die("No Direct Access");
             <div class="col-sm-10">
 
                 <select name="project_id" title="Choose Option">
-
+                    <?php if($_SESSION["logged_in_admin"]["admin_type_id"]==1){?>
                     <option value="">All Expenses</option>
 
                     <option value="0">Administrative Expenses</option>
-
+                    <?php }?>
                     <?php
 
-                    $res=doquery("select * from project where status=1 order by title", $dblink);
+                    $res=doquery("select a.* from project a left join admin_2_project b on a.id = b.project_id where status=1 ".$adminId." order by title", $dblink);
 
                     if(numrows($res)>0){
 

@@ -22,7 +22,7 @@ if(!defined("APP_START")) die("No Direct Access");
                 	<select name="project_id" id="project_id" class="custom_select">
                         <option value=""<?php echo ($project_id=="")? " selected":"";?>>Select Project</option>
                         <?php
-                            $res=doquery("select * from project order by title ",$dblink);
+                            $res=doquery("select a.* from project a left join admin_2_project b on a.id = b.project_id where status=1 ".$adminId." order by title", $dblink);
                             if(numrows($res)>=0){
                                 while($rec=dofetch($res)){
                                 ?>

@@ -32,7 +32,7 @@ if(!defined("APP_START")) die("No Direct Access");
                 <th>Expenses</th>
             	<th class="text-right"><?php
                 	$sum = dofetch( doquery( "select sum(amount) as sum from expense where project_id = '".$id."' and status = 1", $dblink ) );
-                    $sum_salary = dofetch( doquery( "select sum(amount) as sum from salary where project_id = '".$id."' and status = 1", $dblink ) );
+                    $sum_salary = dofetch( doquery( "select sum(amount) as sum from employee_salary where project_id = '".$id."' and status = 1", $dblink ) );
                     $project_balance -= $sum[ "sum" ]+$sum_salary[ "sum" ];
 					echo curr_format( $sum[ "sum" ]+$sum_salary[ "sum" ] );
 				?></th>
@@ -68,12 +68,13 @@ if(!defined("APP_START")) die("No Direct Access");
             </tr>
             <?php
             $total_balance = 0;
-			foreach( $account_ids as $account_id ) {
-			    $balance = get_account_balance( $account_id, '', $id );
+            $accounts=doquery("select * from account order by title", $dblink);
+			foreach( $accounts as $account ) {
+			    $balance = get_account_balance( $account["id"], '', '' );
 			    $total_balance += $balance;
 				?>
 				<tr>
-					<td><?php echo get_field( $account_id, 'account' )?>:</td>
+					<td><?php echo get_field( $account["id"], 'account' )?>:</td>
 					<th class="text-right"><?php echo curr_format( $balance )?></th>
 				</tr>
 				<?php

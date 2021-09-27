@@ -65,14 +65,14 @@ if(!defined("APP_START")) die("No Direct Access");
                 <div class="col-sm-2 margin-btm-5">
 
                 	<select name="project_id" id="project_id" class="custom_select">
-
+                        <?php if($_SESSION["logged_in_admin"]["admin_type_id"]==1){?>
                         <option value=""<?php echo ($project_id=="")? " selected":"";?>>All Expenses</option>
 
                         <option value="0"<?php echo ($project_id=="0")? " selected":"";?>>Administrative Expenses</option>
-
+                        <?php }?>
                         <?php
 
-                            $res=doquery("select * from project order by start_date desc",$dblink);
+                            $res=doquery("select a.* from project a left join admin_2_project b on a.id = b.project_id where status=1 ".$adminId." order by title", $dblink);
 
                             if(numrows($res)>=0){
 
@@ -326,7 +326,7 @@ if(!defined("APP_START")) die("No Direct Access");
 
                     <th><?php echo curr_format($total_amount);?></th>
 
-                    <th colspan="3"></th>
+                    <th colspan="4"></th>
 
                 </tr>
 
@@ -350,7 +350,7 @@ if(!defined("APP_START")) die("No Direct Access");
 
                     </td>
 
-                    <td colspan="5" class="paging" title="Paging" align="right"><?php echo pages_list($rows, "expense", $sql, $pageNum)?></td>
+                    <td colspan="6" class="paging" title="Paging" align="right"><?php echo pages_list($rows, "expense", $sql, $pageNum)?></td>
 
                 </tr>
 
@@ -364,7 +364,7 @@ if(!defined("APP_START")) die("No Direct Access");
 
                 <tr>
 
-                    <td colspan="11"  class="no-record">No Result Found</td>
+                    <td colspan="12"  class="no-record">No Result Found</td>
 
                 </tr>
 
