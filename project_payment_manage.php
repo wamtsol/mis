@@ -23,7 +23,7 @@ if(isset($_SESSION["project_payment"]["list"]["project_id"]))
 else
 	$project_id="";
 if($project_id!=""){
-	$extra.=" and project_id='".$project_id."'";
+	$extra.=" and a.project_id='".$project_id."'";
 	$is_search=true;
 }
 if( isset($_GET["date_from"]) ){
@@ -66,11 +66,12 @@ if(($exempt_tax!= "")){
 	$extra.=" and a.exempt_tax='".$exempt_tax."'";
 	$is_search=true;
 }
-$sql="select a.*, b.title from project_payment a inner join project b on a.project_id = b.id where 1 ".$extra." order by datetime_added desc";
 $adminId = '';
 if($_SESSION["logged_in_admin"]["admin_type_id"]!=1){
 	$adminId = "and b.admin_id = '".$_SESSION["logged_in_admin"]["id"]."'";
 }
+$sql="select a.*, c.title from project_payment a left join admin_2_project b on a.project_id = b.project_id left join project c on a.project_id = c.id where 1 ".$extra." $adminId order by datetime_added desc";
+
 switch($tab){
 	case 'add':
 		include("modules/project_payment/add_do.php");

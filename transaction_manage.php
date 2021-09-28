@@ -53,7 +53,7 @@ if(isset($_SESSION["transaction"]["list"]["project_id"]))
 else
 	$project_id="";
 if($project_id!=""){
-	$extra.=" and project_id='".$project_id."'";
+	$extra.=" and a.project_id='".$project_id."'";
 	$is_search=true;
 }
 if(isset($_GET["reference_id"])){
@@ -86,11 +86,12 @@ if($account_id!=""){
 if( count($acount_extra) > 0 ){
 	$extra.=" and (".implode(" or ", $acount_extra ).")";
 }
-$sql="select * from transaction where 1 $extra order by datetime_added desc";
 $adminId = '';
 if($_SESSION["logged_in_admin"]["admin_type_id"]!=1){
 	$adminId = "and b.admin_id = '".$_SESSION["logged_in_admin"]["id"]."'";
 }
+$sql="select a.* from transaction a left join admin_2_project b on a.project_id = b.project_id where 1 $extra $adminId order by datetime_added desc";
+
 switch($tab){
 	case 'add':
 		include("modules/transaction/add_do.php");

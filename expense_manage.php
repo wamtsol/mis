@@ -23,7 +23,7 @@ if(isset($_SESSION["expense"]["list"]["project_id"]))
 else
 	$project_id="";
 if( $project_id!="" ){
-	$extra.=" and project_id='".$project_id."'";
+	$extra.=" and a.project_id='".$project_id."'";
 	$is_search=true;
 }
 if( isset($_GET["date_from"]) ){
@@ -77,11 +77,12 @@ if($account_id!=""){
 	$extra.=" and account_id='".$account_id."'";
 	$is_search=true;
 }
-$sql="select * from expense where 1 $extra order by datetime_added desc";
 $adminId = '';
 if($_SESSION["logged_in_admin"]["admin_type_id"]!=1){
 	$adminId = "and b.admin_id = '".$_SESSION["logged_in_admin"]["id"]."'";
 }
+$sql="select a.* from expense a left join admin_2_project b on a.project_id = b.project_id where 1 $extra $adminId order by datetime_added desc";
+
 switch($tab){
 	case 'add':
 		include("modules/expense/add_do.php");

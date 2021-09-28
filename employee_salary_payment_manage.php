@@ -28,7 +28,11 @@ if($employee_id!=""){
 	$extra.=" and employee_id='".$employee_id."'";
 	$is_search=true;
 }
-$sql="select * from employee_salary_payment where 1 ".$extra." order by datetime_added desc";
+$adminId = '';
+if($_SESSION["logged_in_admin"]["admin_type_id"]!=1){
+	$adminId = "and b.admin_id = '".$_SESSION["logged_in_admin"]["id"]."'";
+}
+$sql="select a.* from employee_salary_payment a left join admin_2_project b on a.project_id = b.project_id where 1 ".$extra." $adminId order by datetime_added desc";
 switch($tab){
 	case 'add':
 		include("modules/employee_salary_payment/add_do.php");
