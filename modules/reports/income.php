@@ -28,6 +28,19 @@ else
 if($date_to != ""){
 	$extra.=" and datetime_added<='".date('Y-m-d',strtotime(date_dbconvert($date_to)))." 23:59:59'";
 }
+if(isset($_GET["project_id"])){
+    $project_id=slash($_GET["project_id"]);
+    $_SESSION["reports"]["income"]["project_id"]=$project_id;
+}
+
+if(isset($_SESSION["reports"]["income"]["project_id"]))
+    $project_id=$_SESSION["reports"]["income"]["project_id"];
+else
+    $project_id='';
+
+if($project_id != ""){
+    $extra.=" and project_id='".slash($project_id)."'";
+}
 if( empty( $extra ) ) {
 	$extra = ' and 1=0 ';
 }
@@ -55,6 +68,25 @@ if( empty( $extra ) ) {
                 <span class="col-sm-1">Date To</span>
                 <div class="col-sm-2">
                     <input type="text" title="Enter Date To" name="date_to" id="date_to" placeholder="" class="form-control date-picker"  value="<?php echo $date_to?>">
+                </div>
+                <div class="col-sm-1">Project</div>
+                <div class="col-sm-2">
+                    <select name="project_id" id="project_id" class="custom_select">
+                        <?php if($_SESSION["logged_in_admin"]["admin_type_id"]==1){?>
+                            <option value=""<?php echo ($project_id=="")? " selected":"";?>>All Transactions</option>
+                            <option value="0"<?php echo ($project_id=="0")? " selected":"";?>>Administrative Transaction</option>
+                        <?php }?>
+                        <?php
+                        $res=doquery("select a.* from project a left join admin_2_project b on a.id = b.project_id where status=1 ".$adminId." order by title", $dblink);
+                        if(numrows($res)>=0){
+                            while($rec=dofetch($res)){
+                                ?>
+                                <option value="<?php echo $rec["id"]?>" <?php echo($project_id==$rec["id"])?"selected":"";?>><?php echo unslash($rec["title"])?></option>
+                                <?php
+                            }
+                        }
+                        ?>
+                    </select>
                 </div>
                 
                 <div class="col-sm-2 text-left">
@@ -110,7 +142,7 @@ if( empty( $extra ) ) {
 		}
 		$ts_from = strtotime(date_dbconvert($date_from));
         $ts_to = strtotime(date_dbconvert($date_to));
-		$rs = dofetch( doquery( "select sum(amount) as total from employee_salary where status=1 and (month>='".(date('n',$ts_from)-1)."' and year='".date('Y',$ts_from)."' or year>'".date('Y', $ts_from)."') and (month<='".(date('n',$ts_to)-1)."' and year='".date('Y',$ts_to)."' or year<'".date('Y', $ts_to)."')", $dblink ) );
+		$rs = dofetch( doquery( "select sum(amount) as total from employee_salary where status=1".(!empty($project_id)? ' and project_id = "'.$project_id.'"':'')." and (month>='".(date('n',$ts_from)-1)."' and year='".date('Y',$ts_from)."' or year>'".date('Y', $ts_from)."') and (month<='".(date('n',$ts_to)-1)."' and year='".date('Y',$ts_to)."' or year<'".date('Y', $ts_to)."')", $dblink ) );
 		?>
         <tr class="head">
             <th class="text-right">Salary</th>

@@ -100,7 +100,7 @@ if(!defined("APP_START")) die("No Direct Access");
 							while($r=dofetch($rs)){             
 								$salary = get_user_salary_total( $r[ "id" ] );
 								$balance = $salary["balance"];
-								$total_salary += $salary["total_debit"];
+								$total_salary += $salary["total_credit"];
                                 $salary_balance += $balance;
 								if($balance!=0){
 									if( $balance >= 0 ) {
@@ -122,15 +122,6 @@ if(!defined("APP_START")) die("No Direct Access");
 								}
 							}
 						}
-						if($salary_balance<0){
-                            $total += -$salary_balance;
-						    ?>
-                            <tr>
-                                <td>Salary Paybale</td>
-                                <td class="text-right"><?php echo curr_format( -$salary_balance ) ?></td>
-                            </tr>
-                            <?php
-                        }
 						if( count($fixed_assets) > 0){
                             ?>
                             <thead>
@@ -151,33 +142,34 @@ if(!defined("APP_START")) die("No Direct Access");
                                 $sn++;
                             }
                         }
+                        $expense_total = 0;
                         $rs = doquery( "select title, sum(amount) as total from expense a left join expense_category b on a.expense_category_id = b.id where a.status=1 group by expense_category_id order by title", $dblink );
                         if( numrows( $rs ) > 0 ) {
                             $sn=1;
-                            ?>
+                            /*?>
                             <thead>
                             <tr>
                                 <th colspan="2">Expenses</th>
                             </tr>
                             </thead>
-                            <?php
+                            <?php */
                             while($r=dofetch($rs)){
-                                $total += $r["total"];
-                                ?>
+                                $expense_total += $r["total"];
+                                /*?>
                                 <tr>
                                     <td><?php echo unslash($r["title"]); ?></td>
                                     <td class="text-right"><?php echo curr_format( $r["total"] ) ?></td>
                                 </tr>
-                                <?php
+                                <?php*/
                                 $sn++;
                             }
                         }
-                        $total += $total_salary;
-                        ?>
+                        $expense_total += $total_salary;
+                        /*?>
                         <tr>
                             <td>Salary</td>
                             <td class="text-right"><?php echo curr_format( $total_salary )?></td>
-                        </tr>
+                        </tr><?php */?>
                         <tr>
                             <th>Total</th>
                             <th class="text-right"><?php echo curr_format( $total )?></th>
@@ -188,6 +180,8 @@ if(!defined("APP_START")) die("No Direct Access");
 					<table class="table table-hover list">
                         <?php
                         $total = 0;
+                        $revenue = dofetch(doquery("select sum(amount) as total from project_payment where status = 1", $dblink));
+                        $total += $revenue["total"]-$expense_total;
                         ?>
                         <thead>
                         <tr>
@@ -195,11 +189,10 @@ if(!defined("APP_START")) die("No Direct Access");
                         </tr>
                         </thead>
                         <tr>
-                            <td>Gross Income</td>
+                            <td>Net <?php echo $total < 0 ? 'Loss':'Income'?></td>
                             <td class="text-right"><?php
-                                $revenue = dofetch(doquery("select -sum(amount) as total from project_payment where status = 1", $dblink));
-                                $total += $revenue["total"];
-                                echo curr_format($revenue["total"]);
+
+                                echo curr_format($total);
                                 ?></td>
                         </tr>
                         <?php
@@ -207,26 +200,26 @@ if(!defined("APP_START")) die("No Direct Access");
 							?>
 							<thead>
                                 <tr>
-                                    <th colspan="2">Accounts</th>
+                                    <th colspan="2">Accounts Payable</th>
                                 </tr>
                             </thead>
 							<?php
                             if($opening_balance>0){
-                                $total += -$opening_balance;
+                                $total += $opening_balance;
                                 ?>
                                 <tr>
                                     <td>Account Opening Balance</td>
-                                    <td class="text-right"><?php echo curr_format( -$opening_balance ) ?></td>
+                                    <td class="text-right"><?php echo curr_format( $opening_balance ) ?></td>
                                 </tr>
                                 <?php
                             }
 							$sn=1;
 							foreach( $account_payable as $account ){
-								$total += $account[ "balance" ];
+								$total += -$account[ "balance" ];
 								?>
 								<tr>
 									<td><?php echo $account["name"]; ?></td>
-									<td class="text-right"><?php echo curr_format( $account[ "balance" ] ) ?></td>
+									<td class="text-right"><?php echo curr_format( -$account[ "balance" ] ) ?></td>
 								</tr>
 								<?php 
 								$sn++;
@@ -234,7 +227,7 @@ if(!defined("APP_START")) die("No Direct Access");
 							?>
 							<?php	
 						}
-                        if($salary_balance>0){
+                        /*if($salary_balance>0){
                             $total -= $salary_balance;
                             ?>
                             <tr>
@@ -242,7 +235,7 @@ if(!defined("APP_START")) die("No Direct Access");
                                 <td class="text-right"><?php echo curr_format( -$salary_balance ) ?></td>
                             </tr>
                             <?php
-                        }
+                        }*/
                         if( count($capitals) > 0){
                             ?>
                             <thead>
@@ -253,11 +246,11 @@ if(!defined("APP_START")) die("No Direct Access");
                             <?php
                             $sn=1;
                             foreach( $capitals as $account ){
-                                $total += $account[ "balance" ];
+                                $total += -$account[ "balance" ];
                                 ?>
                                 <tr>
                                     <td><?php echo $account["name"]; ?></td>
-                                    <td class="text-right"><?php echo curr_format( $account[ "balance" ] ) ?></td>
+                                    <td class="text-right"><?php echo curr_format( -$account[ "balance" ] ) ?></td>
                                 </tr>
                                 <?php
                                 $sn++;
