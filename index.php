@@ -24,7 +24,7 @@ if($_SESSION["logged_in_admin"]["admin_type_id"]!=1){
         <div class="col-md-12">
             <h2 class="title">Active Projects</h2>
 			<?php
-            $projects=doquery("Select a.* from project a left join admin_2_project b on a.id = b.project_id where status = 1 ".$adminId." order by start_date desc",$dblink);
+            $projects=doquery("Select a.* from project a left join admin_2_project b on a.id = b.project_id where status = 1 ".$adminId." group by a.id order by start_date desc",$dblink);
             if( numrows( $projects ) > 0 ){
                 ?>
                 <ul class="menu-boxes clearfix">
